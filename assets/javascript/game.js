@@ -67,8 +67,6 @@ $(document).ready(function () {
             counterAttackPower: 20
         }
     }
-    //console.log(Object.keys(fighters).length)
-
     const loadFighters = (jObj) => {
         let htmlString = '';
         let keys = Object.keys(fighters);
@@ -132,6 +130,3 @@ $(document).ready(function () {
 
 
 })
-// listener for class of all fighters
-// if the game is not started, start the game and the selected character becomes the player
-//if the game is started and there is no current enemy, the selected character becomes the current enemy
