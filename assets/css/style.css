@@ -1,31 +1,68 @@
-button:disabled {
-    cursor: not-allowed;
-}
-
-.allfighters {
-    background: pink;
+body {
+    margin: 0 auto;
+    max-width: 100vw;
     display: flex;
-}
-.player {
-    background: skyblue;
-    width: 300px;
-    height: 300px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(0,0,0,.6)
 }
 
-.opponent {
+h2 {
+    color: white;
+    font-size: 2rem;
+    padding: 5px;
+    margin: 5px;
+    position: absolute;
+    top: 5px;
+    z-index: 0;
+    word-spacing: 3rem;
+    
+}
+img {
+    width: 250px;
+    z-index: 1;
+}
+.attack {
+    background-color: darkgreen;
+    border: none;
+    padding: 5px 10px;
+    color: white;
+    font-size: 2em;
+    border-image: none;
+}
+.attack:hover {
+    cursor: url(../images/cursor.cur),auto;
+}
+
+
+.attack:disabled {
+    cursor: not-allowed;
+    color: rgba(255,255,255,.4)
+}
+
+
+
+.opponent, .player, .card {
+    width: 400px;
+    height: 225px;
+    margin: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: purple;
-    width: 300px;
+    position: relative;
+
 }
 
-.enemies {
-    background: sandybrown;
-    width: 300px;
+.card {
+    background-color: rgba(0,0,0,.3);
+}
+
+.enemies, .allfighters {
+    width: 100vw;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
 }
@@ -33,15 +70,39 @@ button:disabled {
 .wrapper {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 .healthbar {
+    box-sizing: border-box;
+    padding: 5px;
     background: green;
     color: white;
-    padding: 5px;
     align-items: center;
+    justify-content: center;
     display: flex;
     font-weight: 600;
-    margin: 5px;
-    width: 250px;
+    width: 100%;
+    align-self: flex-start;
+    position: relative;
+    bottom: 0;
 }
 
+.healthbar[hp="red"] {
+    background: red;
+}
+.healthbar[hp="yellow"] {
+    background: yellow;
+    color: rgba(0,0,0,.8);
+}
+.sword::before {
+    content: url('../images/sword.svg');
+    height: 20px;
+    width: 20px;
+}
+
+.player {
+    background: linear-gradient(steelblue 50%, 80%, black);
+}
+.opponent {
+    background: linear-gradient(red 50%, 80%, black);
+}
