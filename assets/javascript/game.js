@@ -1,12 +1,11 @@
 $(document).ready(function () {
-
     const player = {
         attackMultiplier: 0,
         healthstatus: function () {
-            if(this.currentHP/this.baseHP > .6) {
+            if (this.currentHP / this.baseHP > .6) {
                 return 'green';
             }
-            else if (this.currentHP/this.baseHP >.2) {
+            else if (this.currentHP / this.baseHP > .2) {
                 return 'yellow';
             }
             return 'red';
@@ -14,10 +13,10 @@ $(document).ready(function () {
     };
     const opponent = {
         healthstatus: function () {
-            if(this.currentHP/this.baseHP > .6) {
+            if (this.currentHP / this.baseHP > .6) {
                 return 'green';
             }
-            else if (this.currentHP/this.baseHP >.2) {
+            else if (this.currentHP / this.baseHP > .2) {
                 return 'yellow';
             }
             return 'red';
@@ -27,7 +26,7 @@ $(document).ready(function () {
 
     const fighters = {
         fighter1: {
-            name: 'Daenarys',
+            name: 'Daenerys',
             defeated: false,
             baseHP: 100,
             currentHP: 100,
@@ -67,13 +66,17 @@ $(document).ready(function () {
             counterAttackPower: 20
         }
     }
-    const loadFighters = (jObj) => {
+    const loadFighters = (cls) => {
         let htmlString = '';
         let keys = Object.keys(fighters);
         for (let prop of keys) {
-            htmlString += `<div class="card fighter" value="${prop}"><h2>${fighters[prop].name}</h2><img src="./assets/images/${fighters[prop].name}.gif" alt="${fighters[prop].name}"/><div class="healthbar">${fighters[prop].currentHP}</div></div>`
+            htmlString += `<div class="card fighter" value="${prop}">
+                                <h2>${fighters[prop].name}</h2>
+                                <img src="./assets/images/${fighters[prop].name}.gif" alt="${fighters[prop].name}"/>
+                                <div class="healthbar">${fighters[prop].currentHP}</div>
+                            </div>`
         }
-        $(jObj).html(htmlString);
+        $(cls).html(htmlString);
     }
 
     loadFighters('.allfighters');
@@ -81,23 +84,26 @@ $(document).ready(function () {
     $('body').on('click', '.fighter', function () {
         let val = $(this).attr('value');
         if (!gameStart) {
-            startGame(val);
+            startGame($(this));
             return;
         }
-        if ($('.opponent').html() !== '') {
+        if (opponent.defeated === false) {
             return;
         }
         Object.assign(opponent, fighters[val]);
         delete fighters[val];
-        $('.opponent').html(`<h2>${opponent.name}</h2><img src="./assets/images/${opponent.name}.gif" alt="${opponent.name}"/><div class="healthbar">${opponent.currentHP}</div>`);
+        $('.opponent').html($(this).html());
         $(`.fighter[value="${val}"]`).remove();
         $('button').removeAttr('disabled');
     })
 
-    const startGame = (val) => {
+    const startGame = (obj) => {
+        $('#theme').trigger('play');
+        let val = obj.attr('value');
         gameStart = true;
         $('.allfighters').empty();
-        $('.player').html(`<h2>${fighters[val].name}</h2><img src="./assets/images/${fighters[val].name}.gif" alt="${fighters[val].name}"/><div class="healthbar">${fighters[val].currentHP}</div>`);
+        $('.player').html(obj.html());
+
         Object.assign(player, fighters[val]);
         delete fighters[val];
         loadFighters('.enemies');
@@ -108,25 +114,22 @@ $(document).ready(function () {
         player.attackMultiplier++;
         let damage = player.attackPower() * player.attackMultiplier;
         opponent.currentHP -= damage;
-        $('.opponent div').text(opponent.currentHP).attr('hp',opponent.healthstatus());;
-        $('.opponent div').animate({width: ((opponent.currentHP/opponent.baseHP)*100).toString() + '%'})
-        //todo check if opponent still has hp
+        $('.opponent div').text(opponent.currentHP).attr('hp', opponent.healthstatus());
+        $('.opponent div').animate({ width: ((opponent.currentHP / opponent.baseHP) * 100).toString() + '%' });
         if (opponent.currentHP <= 0) {
-            alert (opponent.name + 'has been defeated');
-            $('.opponent').empty();
-            $('.attack').attr('disabled',true)
+            $('.opponent').text(opponent.name + ' is defeated! Choose a new opponent');
+            opponent.defeated = true;
+            $('.attack').attr('disabled', true)
         }
-        else {player.currentHP -= opponent.counterAttackPower;
-        $('.player div').text(player.currentHP).attr('hp',player.healthstatus());
-        $('.player div').animate({width: ((player.currentHP/player.baseHP)*100).toString() + '%'})
-
+        else {
+            player.currentHP -= opponent.counterAttackPower;
+            $('.player .healthbar').text(player.currentHP).attr('hp', player.healthstatus());
+            $('.player .healthbar').animate({ width: ((player.currentHP / player.baseHP) * 100).toString() + '%' });
         }
-         if (player.currentHP <= 0) {
-            $('.attack').attr('disabled',true);
-            return alert('You lose');
+        if (player.currentHP <= 0) {
+            $('.attack').attr('disabled', true);
+            $('.player').text('You Lose');
         }
     })
-
-
 
 })
