@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    const theme = new Audio('./assets/sounds/theme.mp3');
+    const attackSound = new Audio('./assets/sounds/attack.wav')
     const player = {
         attackMultiplier: 0,
         healthstatus: function () {
@@ -103,14 +105,14 @@ $(document).ready(function () {
         gameStart = true;
         $('.allfighters').empty();
         $('.player').html(obj.html());
-
+        theme.play();
         Object.assign(player, fighters[val]);
         delete fighters[val];
         loadFighters('.enemies');
     }
 
     $('.attack').on('click', function () {
-        $('#attack').trigger('play');
+        attackSound.play();
         player.attackMultiplier++;
         let damage = player.attackPower() * player.attackMultiplier;
         opponent.currentHP -= damage;
