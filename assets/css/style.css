@@ -128,3 +128,9 @@ button {
 .opponent {
     background: linear-gradient(red 20%, 75%, rgba(0,0,0,.7));
 }
+.instructions {
+    font-size: 2rem;
+    color: white;
+    background: rgba(47, 79, 79,.8);
+    padding: 10px;
+}

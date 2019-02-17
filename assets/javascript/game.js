@@ -97,6 +97,7 @@ $(document).ready(function () {
         $('.opponent').html($(this).html());
         $(`.fighter[value="${val}"]`).remove();
         $('button').removeAttr('disabled');
+        $('.instructions').text('Fight to the death')
     })
 
     const startGame = (obj) => {
@@ -109,6 +110,7 @@ $(document).ready(function () {
         Object.assign(player, fighters[val]);
         delete fighters[val];
         loadFighters('.enemies');
+        $('.instructions').text('Choose your opponent')
     }
 
     $('.attack').on('click', function () {
@@ -119,9 +121,12 @@ $(document).ready(function () {
         $('.opponent div').text(opponent.currentHP).attr('hp', opponent.healthstatus());
         $('.opponent div').animate({ width: ((opponent.currentHP / opponent.baseHP) * 100).toString() + '%' });
         if (opponent.currentHP <= 0) {
-            $('.opponent').text(opponent.name + ' is defeated! Choose a new opponent');
+            $('.opponent').text(opponent.name + ' is defeated!');
             opponent.defeated = true;
             $('.attack').attr('disabled', true)
+            if ($('.enemies').html() === '') {
+                $('.instructions').html('<p>All enemies are defeated.</p><p> Take your seat on the Iron Throne</p>')
+            } else { $('.instructions').text('Choose your next opponent') }
         }
         else {
             player.currentHP -= opponent.counterAttackPower;
@@ -130,7 +135,8 @@ $(document).ready(function () {
         }
         if (player.currentHP <= 0) {
             $('.attack').attr('disabled', true);
-            $('.player').text('You Lose');
+            $('.player').text('You are defeated');
+            $('.instructions').text('Game Over')
         }
     })
 
