@@ -13,7 +13,7 @@
 * Pixelart by Charlie http://charlieart.pl/
 * Theme by floatingpointmusic https://floatingpointmusic.newgrounds.com/
 
-##Technical Details
+## Technical Details
 * jQuery is used to dynamically render elements in different containers based on the stage of play
 * The character stats and references are contained within defined objects
 * For a basic implementation of game balance, a method is used to derive a character's base attack power inversely proportional to base HP
